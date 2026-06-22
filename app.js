@@ -16,7 +16,8 @@ Sé conciso, claro y usa un tono cálido. Responde siempre en el mismo idioma qu
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+        executablePath: process.env.CHROMIUM_PATH || 'chromium',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--single-process'],
     }
 });
 
@@ -60,7 +61,7 @@ client.on('message', async (msg) => {
 
 app.get('/', async (req, res) => {
     if (botListo) {
-        res.send('<h1 style="font-family:sans-serif;text-align:center;color:green">✅ Bot conectado y funcionando</h1>');
+        res.send('<h1 style="font-family:sans-serif;text-align:center;color:green">✅ Bot conectado</h1>');
     } else if (qrActual) {
         const img = await qrcode.toDataURL(qrActual);
         res.send(`<html><head><meta http-equiv="refresh" content="30"></head>
@@ -70,7 +71,7 @@ app.get('/', async (req, res) => {
         <img src="${img}" style="width:280px;padding:16px;border:1px solid #ddd;border-radius:12px"/>
         </body></html>`);
     } else {
-        res.send('<html><head><meta http-equiv="refresh" content="5"></head><body style="font-family:sans-serif;text-align:center;padding:40px"><h1>⏳ Iniciando...</h1><p>Recarga en unos segundos.</p></body></html>');
+        res.send('<html><head><meta http-equiv="refresh" content="5"></head><body style="font-family:sans-serif;text-align:center;padding:40px"><h1>⏳ Iniciando...</h1></body></html>');
     }
 });
 
