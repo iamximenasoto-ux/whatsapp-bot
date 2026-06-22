@@ -1,5 +1,0 @@
-[phases.setup]
-nixPkgs = ["chromium"]
-
-[start]
-cmd = "node app.js"
